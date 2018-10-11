@@ -1,0 +1,8 @@
+* { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; padding: 0;  width: 100%; }
+
+body { font-family: 'Arial'; font-size: 14px; line-height: 1.7; }
+body.webgl { overflow: hidden; }
+
+#webGlCanvas  { font-family: 'Courier New'; font-size: 11px; height: 100%; width: 100%; }

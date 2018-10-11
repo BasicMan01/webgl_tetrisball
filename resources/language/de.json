@@ -1,0 +1,15 @@
+{
+	"de": {
+		"gameFields": "FELDER",
+		"gamePoints": "PUNKTE",
+		"gameRounds": "RUNDEN",
+		"highscoreReset": "ZUR\u00DCCKSETZEN",
+		"navigationMenu": "START",
+		"navigationPlay": "SPIELEN",
+		"navigationHighscore": "RANGLISTE",
+		"navigationOptions": "EINSTELLUNGEN",
+		"optionsMusic": "MUSIK",
+		"optionsOn": "AN",
+		"optionsOff": "AUS"
+	}
+}

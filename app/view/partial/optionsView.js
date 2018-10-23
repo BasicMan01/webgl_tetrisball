@@ -40,10 +40,10 @@ class OptionsView extends BaseView {
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.textMusic,
-			{text: texts.optionsMusic, x: -12, y: 12, align: 'left'}
+			{text: texts.optionsMusic, x: -12, y: 12, scale: 2, align: 'left'}
 		);
 
-		let properties = {x: 6, y: 12, align: 'right'};
+		let properties = {x: 6, y: 12, scale: 2, align: 'right'};
 
 		if (this.model.music) {
 			properties.text = texts.optionsOn;
@@ -55,12 +55,12 @@ class OptionsView extends BaseView {
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.textMusicButton,
-			{text: '\u25B6', x: 7, y: 12, opacity: 0.2, align: 'left'}
+			{text: '\u25B6', x: 9, y: 12, opacity: 0.2, scale: 2, align: 'left'}
 		);
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.navToMenuButton,
-			{text: texts.navigationMenu, x: -20, y: -12, opacity: 0.2, align: 'left'}
+			{text: '\u25C0 ' + texts.navigationMenu, x: -24, y: -13, opacity: 0.2, scale: 2, align: 'left'}
 		);
 	}
 

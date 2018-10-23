@@ -1,6 +1,6 @@
 class Highscore {
 	constructor() {
-		this.maxItems = 20;
+		this.maxItems = 10;
 		this.maxNameLength = 20;
 
 		this.insertNewName = false;

@@ -10,12 +10,14 @@ class GameView extends BaseView {
 		this.model = model;
 
 		this.addPreviewBlocksButton = null;
+		this.navToMenuButton = null;
 		this.textLabelFields = null;
 		this.textLabelRounds = null;
 		this.textLabelPoints = null;
 		this.textInfoFields = null;
 		this.textInfoRounds = null;
 		this.textInfoPoints = null;
+
 		this.intersectMeshs = [];
 		this.intersectBlockMeshs = [];
 		this.intersectGroundMeshs = [];
@@ -36,6 +38,7 @@ class GameView extends BaseView {
 		let geometryGround = new THREE.PlaneGeometry(1, 1);
 
 		this.addPreviewBlocksButton = this.mainView.addTextBasePlane(this.scene);
+		this.navToMenuButton = this.mainView.addTextBasePlane(this.scene);
 		this.textLabelFields = this.mainView.addTextBasePlane(this.scene);
 		this.textLabelRounds = this.mainView.addTextBasePlane(this.scene);
 		this.textLabelPoints = this.mainView.addTextBasePlane(this.scene);
@@ -44,8 +47,10 @@ class GameView extends BaseView {
 		this.textValuePoints = this.mainView.addTextBasePlane(this.scene);
 
 		this.addPreviewBlocksButton.userData.actionHandler = 'addPreviewBlocksAction';
+		this.navToMenuButton.userData.actionHandler = 'navToMenuAction';
 
 		this.intersectMeshs.push(this.addPreviewBlocksButton);
+		this.intersectMeshs.push(this.navToMenuButton);
 
 		this.container = new THREE.Group();
 		this.container.position.set(0, 0.8, 0);
@@ -107,6 +112,11 @@ class GameView extends BaseView {
 		this.mainView.fontTexture.setTextureToObject(
 			this.addPreviewBlocksButton,
 			{text: '\u25B6', x: -24 + (this.model.sizePreview * 2.5) + 2, y: 12, scale: 2, opacity: 0.2}
+		);
+
+		this.mainView.fontTexture.setTextureToObject(
+			this.navToMenuButton,
+			{text: '\u25C0 ' + texts.navigationMenu, x: -24, y: -13, opacity: 0.2, scale: 2, align: 'left'}
 		);
 
 		this.mainView.fontTexture.setTextureToObject(

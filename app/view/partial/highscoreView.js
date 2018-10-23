@@ -24,6 +24,7 @@ class HighscoreView extends BaseView {
 	createObjects() {
 		this.hiddenInput = document.createElement("input");
 		this.hiddenInput.type = 'text';
+		this.hiddenInput.id = 'hiddenInput';
 		this.hiddenInput.maxLength = this.model.maxNameLength;
 		this.hiddenInput.style.position = 'absolute';
 		this.hiddenInput.style.opacity = '0';
@@ -52,7 +53,6 @@ class HighscoreView extends BaseView {
 	}
 
 	show() {
-		console.log(this.model.insertNewName);
 		if (this.model.insertNewName) {
 			this.hiddenInput.focus();
 			this.hiddenInput.value = '';
@@ -68,32 +68,32 @@ class HighscoreView extends BaseView {
 			let output = '';
 
 			output += helper.pad0(i + 1, 2);
-			output += '.    ';
+			output += '.  ';
 			output += helper.pad0(this.model.items[i].points, 4);
-			output += '    ';
+			output += '  ';
 			output += helper.pad0(this.model.items[i].rounds, 3);
-			output += '    ';
+			output += '  ';
 			output += this.model.items[i].name;
 
 			this.mainView.fontTexture.setTextureToObject(
 				this.highscoreItems[i],
-				{text: output, x: -10, y: 12 - (i * 1.1), align: 'left'}
+				{text: output, x: -20, y: 12 - (i * 2), scale: 2, align: 'left'}
 			);
 		}
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.navToMenuButton,
-			{text: texts.navigationMenu, x: -20, y: -12, opacity: 0.2, align: 'left'}
+			{text: '\u25C0 ' + texts.navigationMenu, x: -24, y: -13, opacity: 0.2, scale: 2, align: 'left'}
 		);
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.resetButton,
-			{text: texts.highscoreReset, x: 0, y: -12, opacity: 0.2}
+			{text: texts.highscoreReset, x: 0, y: -13, scale: 2, opacity: 0.2}
 		);
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.navToGameButton,
-			{text: texts.navigationPlay, x: 20, y: -12, opacity: 0.2, align: 'right'}
+			{text: texts.navigationPlay + ' \u25B6', x: 24, y: -13, opacity: 0.2, scale: 2, align: 'right'}
 		);
 	}
 
@@ -110,9 +110,17 @@ class HighscoreView extends BaseView {
 	}
 
 	hiddenInputKeyUpHandler(event) {
-		this.mainView.emit('applyNameToHighscoreAction', {
-			content: this.hiddenInput.value
-		});
+		switch (event.keyCode) {
+			case 13: { // ENTER
+				this.hiddenInput.blur();
+			} break;
+
+			default: {
+				this.mainView.emit('applyNameToHighscoreAction', {
+					content: this.hiddenInput.value
+				});
+			}
+		}
 
 		this.updateTextures();
 	}

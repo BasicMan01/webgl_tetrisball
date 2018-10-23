@@ -39,17 +39,17 @@ class MenuView extends BaseView {
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.navToGameButton,
-			{text: texts.navigationPlay, x: 0, y: 10, scale: 1.5, opacity: 0.2}
+			{text: texts.navigationPlay, x: 0, y: 10, scale: 2, opacity: 0.2}
 		);
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.navToHighscoreButton,
-			{text: texts.navigationHighscore, x: 0, y: 3, scale: 1.5, opacity: 0.2}
+			{text: texts.navigationHighscore, x: 0, y: 3, scale: 2, opacity: 0.2}
 		);
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.navToOptionsButton,
-			{text: texts.navigationOptions, x: 0, y: -4, scale: 1.5, opacity: 0.2}
+			{text: texts.navigationOptions, x: 0, y: -4, scale: 2, opacity: 0.2}
 		);
 	}
 

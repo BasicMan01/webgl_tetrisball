@@ -214,12 +214,6 @@ class View extends Observable {
 
 	onKeyDownHandler(event) {
 		this.partialView.onKeyDownHandler(event);
-
-		switch (event.keyCode) {
-			case 27: { // ESC
-				this.emit('navToMenuAction');
-			} break;
-		}
 	}
 
 	onMouseMoveHandler(event) {

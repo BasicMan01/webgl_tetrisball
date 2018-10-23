@@ -1,0 +1,28 @@
+{
+	"short_name": "Tetrisball",
+	"name": "Tetrisball",
+	"icons": [{
+		"src": "/tetrisball/resources/icon/icon_128.png",
+		"sizes": "128x128",
+		"type": "image/png"
+    }, {
+		"src": "/tetrisball/resources/icon/icon_144.png",
+		"sizes": "128x128",
+		"type": "image/png"
+    }, {
+		"src": "/tetrisball/resources/icon/icon_152.png",
+		"sizes": "128x128",
+		"type": "image/png"
+    }, {
+		"src": "/tetrisball/resources/icon/icon_192.png",
+		"sizes": "128x128",
+		"type": "image/png"
+    }, {
+		"src": "/tetrisball/resources/icon/icon_256.png",
+		"sizes": "128x128",
+		"type": "image/png"
+    }],
+	"start_url": "/tetrisball/index.html",
+	"display": "fullscreen",
+	"orientation": "landscape"
+}

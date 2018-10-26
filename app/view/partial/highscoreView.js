@@ -125,7 +125,13 @@ class HighscoreView extends BaseView {
 		this.updateTextures();
 	}
 
+	onClickHandler(event) {
+	}
+
 	onKeyDownHandler(event) {
+	}
+
+	onMouseMoveHandler(event) {
 	}
 }
 

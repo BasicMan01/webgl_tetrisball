@@ -1,15 +1,14 @@
 {
-	"en": {
-		"gameFields": "FIELDS",
-		"gamePoints": "POINTS",
-		"gameRounds": "ROUNDS",
-		"highscoreReset": "RESET",
-		"navigationMenu": "HOME",
-		"navigationPlay": "PLAY",
-		"navigationHighscore": "HIGHSCORE",
-		"navigationOptions": "OPTIONS",
-		"optionsMusic": "MUSIC",
-		"optionsOn": "ON",
-		"optionsOff": "OFF"
-	}
+	"en": "English",
+	"gameFields": "FIELDS",
+	"gamePoints": "POINTS",
+	"gameRounds": "ROUNDS",
+	"highscoreReset": "RESET",
+	"navigationMenu": "HOME",
+	"navigationPlay": "PLAY",
+	"navigationHighscore": "HIGHSCORE",
+	"navigationOptions": "OPTIONS",
+	"optionsMusic": "MUSIC",
+	"optionsOn": "ON",
+	"optionsOff": "OFF"
 }

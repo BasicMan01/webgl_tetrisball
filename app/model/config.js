@@ -1,24 +1,25 @@
 class Config {
 	constructor() {
-		this.config = {};
+		this.font = {};
+		this.language = '';
 		this.texts = {};
 		this.fontBg = null;
-		this.loader = new THREE.FileLoader();
 
-		this.load();
+		this.loader = new THREE.FileLoader();
 	}
 
 	load(callback) {
 		this.loadJsonFile('resources/config/config.json').then((value) => {
-			this.config = value;
+			this.font = value.defaultFont;
+			this.language = value.defaultLanguage;
 
-			return this.loadJsonFile('resources/language/' + this.config.language + '.json');
+			return this.loadJsonFile('resources/language/' + this.language + '.json');
 		}).then((value) => {
-			this.texts = value[this.config.language];
+			this.texts = value;
 
 			return this.loadImageFile('resources/texture/font/bg.png');
 		}).then((value) => {
-			this.fontBg = value;
+			this.font.backgroundImg = value;
 
 			if (typeof callback === 'function') {
 				callback();

@@ -53,7 +53,13 @@ class MenuView extends BaseView {
 		);
 	}
 
+	onClickHandler(event) {
+	}
+
 	onKeyDownHandler(event) {
+	}
+
+	onMouseMoveHandler(event) {
 	}
 }
 

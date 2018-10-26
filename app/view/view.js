@@ -47,7 +47,7 @@ class View extends Observable {
 
 		this.raycaster = new THREE.Raycaster();
 
-		this.fontTexture = new FontTexture(this.config.fontBg);
+		this.fontTexture = new FontTexture(this.config.font);
 
 		//TODO validate - add listener to this.renderer.domElement
 		window.addEventListener('click', this.onClickHandler.bind(this), false);

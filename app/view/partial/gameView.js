@@ -178,6 +178,9 @@ class GameView extends BaseView {
 		}
 	}
 
+	onClickHandler(event) {
+	}
+
 	onKeyDownHandler(event) {
 		switch (event.keyCode) {
 			case 87: { // W
@@ -221,6 +224,9 @@ class GameView extends BaseView {
 				console.log(this.container.scale);
 			} break;
 		}
+	}
+
+	onMouseMoveHandler(event) {
 	}
 }
 

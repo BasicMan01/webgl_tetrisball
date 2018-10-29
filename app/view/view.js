@@ -80,8 +80,6 @@ class View extends Observable {
 	}
 
 	render() {
-		requestAnimationFrame(this.render.bind(this));
-
 		this.renderer.render(this.scene, this.camera);
 	}
 
@@ -210,10 +208,12 @@ class View extends Observable {
 		}
 
 		this.partialView.updateTextures();
+		this.render();
 	}
 
 	onKeyDownHandler(event) {
 		this.partialView.onKeyDownHandler(event);
+		this.render();
 	}
 
 	onMouseMoveHandler(event) {
@@ -270,6 +270,8 @@ class View extends Observable {
 				}
 			}
 		}
+
+		this.render();
 	}
 
 	onResizeHandler(event) {
@@ -277,6 +279,7 @@ class View extends Observable {
 		this.camera.updateProjectionMatrix();
 
 		this.renderer.setSize(this.getGameAreaWidth(), this.getGameAreaHeight());
+		this.render();
 	}
 }
 

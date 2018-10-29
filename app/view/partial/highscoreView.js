@@ -107,6 +107,8 @@ class HighscoreView extends BaseView {
 				this.mainView.emit('saveNameToHighscoreAction');
 			} break;
 		}
+
+		this.mainView.render();
 	}
 
 	hiddenInputKeyUpHandler(event) {
@@ -123,6 +125,7 @@ class HighscoreView extends BaseView {
 		}
 
 		this.updateTextures();
+		this.mainView.render();
 	}
 
 	onClickHandler(event) {

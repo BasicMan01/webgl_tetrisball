@@ -2,15 +2,18 @@ class Highscore {
 	constructor() {
 		this.maxItems = 10;
 		this.maxNameLength = 20;
+		this.storageKey = 'highscoreTetrisball';
 
 		this.insertNewName = false;
 		this.items = [];
-		this.newItem = {};
 
 		this.initItems();
+		this.loadFromStorage();
 	}
 
 	initItems() {
+		this.items = [];
+
 		for (let i = 0; i < this.maxItems; ++i) {
 			this.items.push({
 				rounds: 0,
@@ -23,13 +26,12 @@ class Highscore {
 	initNewEntry(rounds, points) {
 		this.insertNewName = true;
 		this.currentInsertIndex = this.maxItems;
-		this.newItem = {
+
+		this.items.push({
 			rounds: rounds,
 			points: points,
 			name: '_'
-		};
-
-		this.items.push(this.newItem);
+		});
 
 		for (let i = this.maxItems - 1; i >= 0; --i) {
 			if (this.items[i].points < this.items[i + 1].points) {
@@ -45,9 +47,8 @@ class Highscore {
 	}
 
 	reset() {
-		this.items = [];
-
 		this.initItems();
+		this.saveToStorage();
 	}
 
 	save() {
@@ -56,8 +57,24 @@ class Highscore {
 
 			this.items[this.currentInsertIndex].name = this.truncateName(this.items[this.currentInsertIndex].name);
 
-			// TODO: save to storage
+			this.saveToStorage();
 		}
+	}
+
+	loadFromStorage() {
+		let itemsFromStorage = localStorage.getItem(this.storageKey);
+
+		if (itemsFromStorage !== null) {
+			try {
+				this.items = JSON.parse(itemsFromStorage);
+			} catch(e) {
+				console.error('JSON parse error');
+			}
+		}
+	}
+
+	saveToStorage() {
+		localStorage.setItem(this.storageKey, JSON.stringify(this.items));
 	}
 
 	applyName(content) {

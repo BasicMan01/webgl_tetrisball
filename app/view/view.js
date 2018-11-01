@@ -172,26 +172,36 @@ class View extends Observable {
 
 
 	onClickHandler(event) {
+		this.partialView.onClickHandler(event);
+
 		if (this.selectedObject !== null) {
 			this.emit(this.selectedObject.userData.actionHandler);
 
 			this.selectedObject = null;
 		}
 
-		if (this.selectedBlock !== null) {
+		// the mouse pointer is over a block element
+		if (this.selectedGround === null && this.selectedBlock !== null) {
 			if (this.markedBlock !== null) {
 				this.markedBlock.material.opacity = 1;
 			}
 
-			this.markedBlock = this.selectedBlock;
-			this.selectedBlock = null;
+			if (this.markedBlock !== this.selectedBlock) {
+				this.markedBlock = this.selectedBlock;
+				this.selectedBlock = null;
 
-			this.emit(this.markedBlock.userData.actionHandler, {
-				curX: this.markedBlock.userData.x,
-				curY: this.markedBlock.userData.y
-			});
+				this.emit(this.markedBlock.userData.actionHandler, {
+					curX: this.markedBlock.userData.x,
+					curY: this.markedBlock.userData.y
+				});
+			} else {
+				// unselect selected block
+				this.markedBlock = null;
+				this.selectedBlock = null;
+			}
 		}
 
+		// the mouse pointer is over a ground element
 		if (this.selectedGround !== null && this.markedBlock !== null) {
 			let wayFound = this.emit(this.selectedGround.userData.actionHandler, {
 				curX: this.markedBlock.userData.x,

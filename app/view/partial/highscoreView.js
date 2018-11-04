@@ -26,6 +26,7 @@ class HighscoreView extends BaseView {
 		this.hiddenInput.type = 'text';
 		this.hiddenInput.id = 'hiddenInput';
 		this.hiddenInput.maxLength = this.model.maxNameLength;
+		this.hiddenInput.title = 'Input your name for highscore';
 		this.hiddenInput.style.position = 'absolute';
 		this.hiddenInput.style.opacity = '0';
 		this.hiddenInput.style.top = '0';

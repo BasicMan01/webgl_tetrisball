@@ -46,13 +46,12 @@ class View extends Observable {
 		this.canvas.appendChild(this.renderer.domElement);
 
 		this.raycaster = new THREE.Raycaster();
-
 		this.fontTexture = new FontTexture(this.config.font);
 
-		//TODO validate - add listener to this.renderer.domElement
-		window.addEventListener('click', this.onClickHandler.bind(this), false);
+		this.renderer.domElement.addEventListener('mousemove', this.onMouseMoveHandler.bind(this), false);
+		this.renderer.domElement.addEventListener('mouseup', this.onMouseUpHandler.bind(this), false);
+
 		window.addEventListener('keydown', this.onKeyDownHandler.bind(this), false);
-		window.addEventListener('mousemove', this.onMouseMoveHandler.bind(this), false);
 		window.addEventListener('resize', this.onResizeHandler.bind(this), false);
 
 		this.load();
@@ -169,58 +168,6 @@ class View extends Observable {
 		return mouseVector2;
 	}
 
-
-
-	onClickHandler(event) {
-		this.partialView.onClickHandler(event);
-
-		if (this.selectedObject !== null) {
-			this.emit(this.selectedObject.userData.actionHandler);
-
-			this.selectedObject = null;
-		}
-
-		// the mouse pointer is over a block element
-		if (this.selectedGround === null && this.selectedBlock !== null) {
-			if (this.markedBlock !== null) {
-				this.markedBlock.material.opacity = 1;
-			}
-
-			if (this.markedBlock !== this.selectedBlock) {
-				this.markedBlock = this.selectedBlock;
-				this.selectedBlock = null;
-
-				this.emit(this.markedBlock.userData.actionHandler, {
-					curX: this.markedBlock.userData.x,
-					curY: this.markedBlock.userData.y
-				});
-			} else {
-				// unselect selected block
-				this.markedBlock = null;
-				this.selectedBlock = null;
-			}
-		}
-
-		// the mouse pointer is over a ground element
-		if (this.selectedGround !== null && this.markedBlock !== null) {
-			let wayFound = this.emit(this.selectedGround.userData.actionHandler, {
-				curX: this.markedBlock.userData.x,
-				curY: this.markedBlock.userData.y,
-				endX: this.selectedGround.userData.x,
-				endY: this.selectedGround.userData.y
-			});
-
-			if (wayFound) {
-				this.markedBlock.material.opacity = 1;
-				this.markedBlock = null;
-				this.selectedGround = null;
-			}
-		}
-
-		this.partialView.updateTextures();
-		this.render();
-	}
-
 	onKeyDownHandler(event) {
 		this.partialView.onKeyDownHandler(event);
 		this.render();
@@ -281,6 +228,56 @@ class View extends Observable {
 			}
 		}
 
+		this.render();
+	}
+
+	onMouseUpHandler() {
+		this.partialView.onClickHandler(event);
+
+		if (this.selectedObject !== null) {
+			this.emit(this.selectedObject.userData.actionHandler);
+
+			this.selectedObject = null;
+		}
+
+		// the mouse pointer is over a block element
+		if (this.selectedGround === null && this.selectedBlock !== null) {
+			if (this.markedBlock !== null) {
+				this.markedBlock.material.opacity = 1;
+			}
+
+			if (this.markedBlock !== this.selectedBlock) {
+				this.markedBlock = this.selectedBlock;
+				this.selectedBlock = null;
+
+				this.emit(this.markedBlock.userData.actionHandler, {
+					curX: this.markedBlock.userData.x,
+					curY: this.markedBlock.userData.y
+				});
+			} else {
+				// unselect selected block
+				this.markedBlock = null;
+				this.selectedBlock = null;
+			}
+		}
+
+		// the mouse pointer is over a ground element
+		if (this.selectedGround !== null && this.markedBlock !== null) {
+			let wayFound = this.emit(this.selectedGround.userData.actionHandler, {
+				curX: this.markedBlock.userData.x,
+				curY: this.markedBlock.userData.y,
+				endX: this.selectedGround.userData.x,
+				endY: this.selectedGround.userData.y
+			});
+
+			if (wayFound) {
+				this.markedBlock.material.opacity = 1;
+				this.markedBlock = null;
+				this.selectedGround = null;
+			}
+		}
+
+		this.partialView.updateTextures();
 		this.render();
 	}
 

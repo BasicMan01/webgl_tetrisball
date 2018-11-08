@@ -129,13 +129,13 @@ class HighscoreView extends BaseView {
 		this.mainView.render();
 	}
 
-	onClickHandler(event) {
-	}
-
 	onKeyDownHandler(event) {
 	}
 
 	onMouseMoveHandler(event) {
+	}
+
+	onMouseUpHandler(event) {
 	}
 }
 

@@ -111,12 +111,12 @@ class GameView extends BaseView {
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.addPreviewBlocksButton,
-			{text: '\u25B6', x: -24 + (this.model.sizePreview * 2.5) + 2, y: 12, scale: 2, opacity: 0.2}
+			{text: '\u25BA', x: -24 + (this.model.sizePreview * 2.5) + 2, y: 12, scale: 2, opacity: 0.2}
 		);
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.navToMenuButton,
-			{text: '\u25C0 ' + texts.navigationMenu, x: -24, y: -13, opacity: 0.2, scale: 2, align: 'left'}
+			{text: '\u25C4 ' + texts.navigationMenu, x: -24, y: -13, opacity: 0.2, scale: 2, align: 'left'}
 		);
 
 		this.mainView.fontTexture.setTextureToObject(

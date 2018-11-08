@@ -55,12 +55,12 @@ class OptionsView extends BaseView {
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.textMusicButton,
-			{text: '\u25B6', x: 9, y: 12, opacity: 0.2, scale: 2, align: 'left'}
+			{text: '\u25BA', x: 9, y: 12, opacity: 0.2, scale: 2, align: 'left'}
 		);
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.navToMenuButton,
-			{text: '\u25C0 ' + texts.navigationMenu, x: -24, y: -13, opacity: 0.2, scale: 2, align: 'left'}
+			{text: '\u25C4 ' + texts.navigationMenu, x: -24, y: -13, opacity: 0.2, scale: 2, align: 'left'}
 		);
 	}
 

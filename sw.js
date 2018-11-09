@@ -26,7 +26,7 @@ self.addEventListener('install', event => {
 				'/webgl_tetrisball/lib/rdo/fontTexture.js',
 				'/webgl_tetrisball/lib/rdo/helper.js',
 				'/webgl_tetrisball/lib/rdo/sound.js',
-				'/webgl_tetrisball/lib/threejs_95/three.min.js',
+				'/webgl_tetrisball/lib/threejs_97/three.min.js',
 				'/webgl_tetrisball/resources/config/config.json',
 				'/webgl_tetrisball/resources/css/global.css',
 				'/webgl_tetrisball/resources/icon/icon_192.png',

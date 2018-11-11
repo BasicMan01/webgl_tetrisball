@@ -23,7 +23,7 @@ class GameView extends BaseView {
 		this.intersectGroundMeshs = [];
 		this.intersectGameMeshs = [];
 
-		this.container = null;
+		this.container = new THREE.Group();
 		this.blocks = [];
 		this.grounds = [];
 		this.previewBlocks = [];
@@ -52,7 +52,6 @@ class GameView extends BaseView {
 		this.intersectMeshs.push(this.addPreviewBlocksButton);
 		this.intersectMeshs.push(this.navToMenuButton);
 
-		this.container = new THREE.Group();
 		this.container.position.set(0, 0.8, 0);
 		this.container.scale.set(2, 2, 2);
 		this.container.rotation.set(-0.58, -0, -0.47);
@@ -62,7 +61,6 @@ class GameView extends BaseView {
 		for(let i = 0; i < this.model.sizePreview; i++) {
 			this.previewBlocks[i] = new THREE.Mesh(geometryBlock);
 			this.previewBlocks[i].renderOrder = 99999;
-			this.previewBlocks[i].position.set(i * 2.5 - 24, 12, 0);
 			this.previewBlocks[i].scale.set(2, 2, 2);
 			this.previewBlocks[i].material = new THREE.MeshBasicMaterial();
 			this.previewBlocks[i].material.depthTest = false;
@@ -108,48 +106,52 @@ class GameView extends BaseView {
 
 	updateTextures() {
 		let texts = this.mainView.config.texts;
+		let x = (-15 * this.mainView.camera.aspect) + (this.model.sizePreview * 2.5) + 2;
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.addPreviewBlocksButton,
-			{text: '\u25BA', x: -24 + (this.model.sizePreview * 2.5) + 2, y: 12, scale: 2, opacity: 0.2}
+			{text: '\u25BA', x: x, y: 12, scale: 2, opacity: 0.2, useAspectRatio: false }
 		);
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.navToMenuButton,
-			{text: '\u25C4 ' + texts.navigationMenu, x: -24, y: -13, opacity: 0.2, scale: 2, align: 'left'}
+			{text: '\u25C4 ' + texts.navigationMenu, x: -16, y: -13, opacity: 0.2, scale: 2, align: 'left'}
 		);
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.textLabelFields,
-			{text: texts.gameFields + ':', x: 19, y: 13, align: 'left'}
+			{text: texts.gameFields + ':', x: 9, y: 13, align: 'left'}
 		);
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.textValueFields,
-			{text: helper.pad0(this.model.freeFields, 3), x: 26, y: 13, align: 'right'}
+			{text: helper.pad0(this.model.freeFields, 3), x: 14, y: 13, align: 'right'}
 		);
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.textLabelRounds,
-			{text: texts.gameRounds + ':', x: 19, y: 11.5, align: 'left'}
+			{text: texts.gameRounds + ':', x: 9, y: 11.5, align: 'left'}
 		);
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.textValueRounds,
-			{text: helper.pad0(this.model.rounds, 3), x: 26, y: 11.5, align: 'right'}
+			{text: helper.pad0(this.model.rounds, 3), x: 14, y: 11.5, align: 'right'}
 		);
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.textLabelPoints,
-			{text: texts.gamePoints + ':', x: 19, y: 10.0, align: 'left'}
+			{text: texts.gamePoints + ':', x: 9, y: 10.0, align: 'left'}
 		);
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.textValuePoints,
-			{text: helper.pad0(this.model.points, 4), x: 26, y: 10.0, align: 'right'}
+			{text: helper.pad0(this.model.points, 4), x: 14, y: 10.0, align: 'right'}
 		);
 
 		for(let i = 0; i < this.model.preview.length; i++) {
+			let x = (i * 2.5) - (15 * this.mainView.camera.aspect);
+
+			this.previewBlocks[i].position.set(x, 12, 0);
 			this.previewBlocks[i].material.map = this.mainView.blockTextures[this.model.preview[i]];
 		}
 

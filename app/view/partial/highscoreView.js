@@ -78,13 +78,13 @@ class HighscoreView extends BaseView {
 
 			this.mainView.fontTexture.setTextureToObject(
 				this.highscoreItems[i],
-				{text: output, x: -20, y: 12 - (i * 2), scale: 2, align: 'left'}
+				{text: output, x: -12, y: 12 - (i * 2), scale: 2, align: 'left'}
 			);
 		}
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.navToMenuButton,
-			{text: '\u25C4 ' + texts.navigationMenu, x: -24, y: -13, opacity: 0.2, scale: 2, align: 'left'}
+			{text: '\u25C4 ' + texts.navigationMenu, x: -16, y: -13, opacity: 0.2, scale: 2, align: 'left'}
 		);
 
 		this.mainView.fontTexture.setTextureToObject(
@@ -94,7 +94,7 @@ class HighscoreView extends BaseView {
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.navToGameButton,
-			{text: texts.navigationPlay + ' \u25BA', x: 24, y: -13, opacity: 0.2, scale: 2, align: 'right'}
+			{text: texts.navigationPlay + ' \u25BA', x: 16, y: -13, opacity: 0.2, scale: 2, align: 'right'}
 		);
 	}
 

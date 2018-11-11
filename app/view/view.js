@@ -46,7 +46,7 @@ class View extends Observable {
 		this.canvas.appendChild(this.renderer.domElement);
 
 		this.raycaster = new THREE.Raycaster();
-		this.fontTexture = new FontTexture(this.config.font);
+		this.fontTexture = new FontTexture(this.config.font, this.camera);
 
 		this.renderer.domElement.addEventListener('mousemove', this.onMouseMoveHandler.bind(this), false);
 		this.renderer.domElement.addEventListener('mouseup', this.onMouseUpHandler.bind(this), false);
@@ -232,7 +232,7 @@ class View extends Observable {
 	}
 
 	onMouseUpHandler() {
-		this.partialView.onClickHandler(event);
+		this.partialView.onMouseUpHandler(event);
 
 		if (this.selectedObject !== null) {
 			this.emit(this.selectedObject.userData.actionHandler);
@@ -286,6 +286,8 @@ class View extends Observable {
 		this.camera.updateProjectionMatrix();
 
 		this.renderer.setSize(this.getGameAreaWidth(), this.getGameAreaHeight());
+
+		this.partialView.updateTextures();
 		this.render();
 	}
 }

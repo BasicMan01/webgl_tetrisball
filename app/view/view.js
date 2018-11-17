@@ -1,4 +1,5 @@
 import Observable from '../classes/observable.js';
+import TextureManager from '../classes/textureManager.js';
 import FontTexture from '../../lib/rdo/fontTexture.js';
 
 import MenuView from '../view/partial/menuView.js';
@@ -18,10 +19,6 @@ class View extends Observable {
 		this.gameView = null;
 		this.optionsView = null;
 		this.highscoreView = null;
-
-		this.blockTextures = [];
-		this.nonPickTexture = null;
-		this.pickTexture = null;
 
 		this.intersectMeshs = [];
 		this.selectedObject = null;
@@ -47,6 +44,7 @@ class View extends Observable {
 
 		this.raycaster = new THREE.Raycaster();
 		this.fontTexture = new FontTexture(this.config.font, this.camera);
+		this.textureManager = new TextureManager();
 
 		this.renderer.domElement.addEventListener('mousemove', this.onMouseMoveHandler.bind(this), false);
 		this.renderer.domElement.addEventListener('mouseup', this.onMouseUpHandler.bind(this), false);
@@ -58,13 +56,16 @@ class View extends Observable {
 	}
 
 	load() {
-		this.loadBlockTextures().then((value) => {
-			this.blockTextures = value;
+		let files = {
+			'pick': 'resources/texture/game/pick.png',
+			'nonPick': 'resources/texture/game/nonpick.png'
+		};
+		
+		for (let i = 0; i < 6; ++i) {
+			files[i.toString()] = 'resources/texture/game/' + (i + 1).toString() + '.png';
+		}
 
-			this.init();
-		}).catch((error) => {
-			console.log(error);
-		});
+		this.textureManager.loadAll(files, this.init.bind(this));
 	}
 
 	init() {
@@ -91,40 +92,6 @@ class View extends Observable {
 		scene.add(plane);
 
 		return plane;
-	}
-
-	loadBlockTextures() {
-		let self = this;
-
-		return new Promise((resolve, reject) => {
-			let loadingManager = new THREE.LoadingManager();
-			let textureLoader =  new THREE.TextureLoader(loadingManager);
-			let textures  = [];
-
-			loadingManager.onProgress = function(url, itemsLoaded, itemsTotal) {
-				var logValue = 'PROGRESS: ' + url + ' (' + itemsLoaded + '/' + itemsTotal + ')';
-
-				console.log(logValue);
-			};
-
-			loadingManager.onLoad = function() {
-				resolve(textures);
-			};
-
-			loadingManager.onError = function (url) {
-				reject('loading error ' + url);
-			};
-
-			for (let i = 0; i < 6; ++i) {
-				textures[i] = textureLoader.load('resources/texture/game/' + (i + 1) + '.png');
-				textures[i].minFilter = THREE.LinearFilter;
-			}
-
-			self.nonPickTexture = textureLoader.load('resources/texture/game/nonpick.png');
-			self.nonPickTexture.minFilter = THREE.LinearFilter;
-			self.pickTexture = textureLoader.load('resources/texture/game/pick.png');
-			self.pickTexture.minFilter = THREE.LinearFilter;
-		});
 	}
 
 	setPartialView(obj) {
@@ -207,7 +174,7 @@ class View extends Observable {
 				intersects = this.raycaster.intersectObjects(this.gameView.intersectGameMeshs, true);
 
 				if (this.selectedGround !== null) {
-					this.selectedGround.material.map = this.nonPickTexture;
+					this.selectedGround.material.map = this.textureManager.get('nonPick');
 					this.selectedGround = null;
 				}
 
@@ -219,7 +186,7 @@ class View extends Observable {
 				if (intersects.length > 0) {
 					if (intersects[0].object.userData.type === 'ground') {
 						this.selectedGround = intersects[0].object;
-						this.selectedGround.material.map = this.pickTexture;
+						this.selectedGround.material.map = this.textureManager.get('pick');
 					} else if (intersects[0].object.userData.type === 'block') {
 						this.selectedBlock = intersects[0].object;
 						this.selectedBlock.material.opacity = 0.5;

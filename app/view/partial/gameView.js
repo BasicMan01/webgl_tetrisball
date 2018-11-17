@@ -152,7 +152,7 @@ class GameView extends BaseView {
 			let x = (i * 2.5) - (15 * this.mainView.camera.aspect);
 
 			this.previewBlocks[i].position.set(x, 12, 0);
-			this.previewBlocks[i].material.map = this.mainView.blockTextures[this.model.preview[i]];
+			this.previewBlocks[i].material.map = this.mainView.textureManager.get(this.model.preview[i].toString());
 		}
 
 		this.intersectGroundMeshs = [];
@@ -161,10 +161,10 @@ class GameView extends BaseView {
 
 		for (let y = 0; y < this.model.size; y++) {
 			for (let x = 0; x < this.model.size; x++) {
-				this.grounds[y][x].material.map = this.mainView.nonPickTexture;
+				this.grounds[y][x].material.map = this.mainView.textureManager.get('nonPick');
 
 				if (this.model.blocks[y][x] !== -1) {
-					this.blocks[y][x].material.map = this.mainView.blockTextures[this.model.blocks[y][x]];
+					this.blocks[y][x].material.map = this.mainView.textureManager.get(this.model.blocks[y][x].toString());
 					this.blocks[y][x].visible = true;
 
 					this.intersectBlockMeshs.push(this.blocks[y][x]);

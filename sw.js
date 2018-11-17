@@ -12,6 +12,7 @@ self.addEventListener('install', event => {
 				'/webgl_tetrisball/app/main.js',
 				'/webgl_tetrisball/app/classes/objectMap.js',
 				'/webgl_tetrisball/app/classes/observable.js',
+				'/webgl_tetrisball/app/classes/textureManager.js',
 				'/webgl_tetrisball/app/controller/controller.js',
 				'/webgl_tetrisball/app/model/config.js',
 				'/webgl_tetrisball/app/model/highscore.js',

@@ -100,6 +100,21 @@ class GameView extends BaseView {
 		}
 	}
 
+	readjustLimit() {
+		if (this.container.rotation.x > 0) {
+			this.container.rotation.x = 0;
+		} else if (this.container.rotation.x < -Math.PI / 2) {
+			this.container.rotation.x = -Math.PI / 2;
+		}
+	}
+
+	rotateGameBoard(vec) {
+		this.container.rotation.x -= vec.y * 2;
+		this.container.rotation.z += vec.x * 2;
+
+		this.readjustLimit();
+	}
+
 	show() {
 		this.updateTextures();
 	}
@@ -182,30 +197,6 @@ class GameView extends BaseView {
 
 	onKeyDownHandler(event) {
 		switch (event.keyCode) {
-			case 87: { // W
-				this.container.rotation.x -= 0.01;
-			} break;
-
-			case 83: { // S
-				this.container.rotation.x += 0.01;
-			} break;
-
-			case 65: { // A
-				this.container.rotation.y -= 0.01;
-			} break;
-
-			case 68: { // D
-				this.container.rotation.y += 0.01;
-			} break;
-
-			case 81: { // Q
-				this.container.rotation.z -= 0.01;
-			} break;
-
-			case 69: { // E
-				this.container.rotation.z += 0.01;
-			} break;
-
 			case 88: { // X
 				this.container.scale.x += 0.1;
 				this.container.scale.y += 0.1;
@@ -225,10 +216,10 @@ class GameView extends BaseView {
 		}
 	}
 
-	onMouseMoveHandler(event) {
+	handlePointerMove(eventPosX, eventPosY) {
 	}
 
-	onMouseUpHandler(event) {
+	handlePointerUp(eventPosX, eventPosY) {
 	}
 }
 

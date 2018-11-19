@@ -17,12 +17,12 @@ class BaseView {
 			throw new TypeError('onKeyDownHandler(event) not implemented in class ' + this.constructor.name);
 		}
 
-		if (typeof this.onMouseMoveHandler !== 'function') {
-			throw new TypeError('onMouseMoveHandler(event) not implemented in class ' + this.constructor.name);
+		if (typeof this.handlePointerMove !== 'function') {
+			throw new TypeError('handlePointerMove(eventPosX, eventPosY) not implemented in class ' + this.constructor.name);
 		}
 
-		if (typeof this.onMouseUpHandler !== 'function') {
-			throw new TypeError('onMouseUpHandler(event) not implemented in class ' + this.constructor.name);
+		if (typeof this.handlePointerUp !== 'function') {
+			throw new TypeError('handlePointerUp(eventPosX, eventPosY) not implemented in class ' + this.constructor.name);
 		}
 	}
 }

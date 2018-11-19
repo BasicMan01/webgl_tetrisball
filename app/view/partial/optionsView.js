@@ -67,10 +67,10 @@ class OptionsView extends BaseView {
 	onKeyDownHandler(event) {
 	}
 
-	onMouseMoveHandler(event) {
+	handlePointerMove(eventPosX, eventPosY) {
 	}
 
-	onMouseUpHandler(event) {
+	handlePointerUp(eventPosX, eventPosY) {
 	}
 }
 

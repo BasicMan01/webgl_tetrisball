@@ -26,6 +26,14 @@ class View extends Observable {
 		this.selectedGround = null;
 		this.markedBlock = null;
 
+		this.isPointerDown = false;
+		this.pointerDownVector = new THREE.Vector2();
+
+		this.startPointerVector = new THREE.Vector2();
+		this.endPointerVector = new THREE.Vector2();
+		this.differencePointerVector = new THREE.Vector2();
+
+
 
 		this.canvas = document.getElementById('webGlCanvas');
 
@@ -46,8 +54,12 @@ class View extends Observable {
 		this.fontTexture = new FontTexture(this.config.font, this.camera);
 		this.textureManager = new TextureManager();
 
+		this.renderer.domElement.addEventListener('mousedown', this.onMouseDownHandler.bind(this), false);
 		this.renderer.domElement.addEventListener('mousemove', this.onMouseMoveHandler.bind(this), false);
 		this.renderer.domElement.addEventListener('mouseup', this.onMouseUpHandler.bind(this), false);
+		this.renderer.domElement.addEventListener('touchstart', this.onTouchStartHandler.bind(this), false);
+		this.renderer.domElement.addEventListener('touchmove', this.onTouchMoveHandler.bind(this), false);
+		this.renderer.domElement.addEventListener('touchend', this.onTouchEndHandler.bind(this), false);
 
 		window.addEventListener('keydown', this.onKeyDownHandler.bind(this), false);
 		window.addEventListener('resize', this.onResizeHandler.bind(this), false);
@@ -60,7 +72,7 @@ class View extends Observable {
 			'pick': 'resources/texture/game/pick.png',
 			'nonPick': 'resources/texture/game/nonpick.png'
 		};
-		
+
 		for (let i = 0; i < 6; ++i) {
 			files[i.toString()] = 'resources/texture/game/' + (i + 1).toString() + '.png';
 		}
@@ -94,56 +106,20 @@ class View extends Observable {
 		return plane;
 	}
 
-	setPartialView(obj) {
-		this.partialView = obj;
+	matchClick(startVec, endVec) {
+		let difference = new THREE.Vector2().subVectors(endVec, startVec);
 
-		this.scene = this.partialView.scene;
-		this.intersectMeshs = this.partialView.intersectMeshs;
+		if (Math.abs(difference.x) > 0.003 || Math.abs(difference.y) > 0.003) {
+			return false;
+		}
 
-		this.partialView.show();
+		return true;
 	}
 
-	showGameView() {
-		this.setPartialView(this.gameView);
-	}
-
-	showHighscoreView() {
-		this.setPartialView(this.highscoreView);
-	}
-
-	showMenuView() {
-		this.setPartialView(this.menuView);
-	}
-
-	showOptionsView() {
-		this.setPartialView(this.optionsView);
-	}
-
-
-	getGameAreaHeight() { return this.canvas.offsetHeight; }
-	getGameAreaWidth() { return this.canvas.offsetWidth; }
-
-	getCameraAspect() { return this.getGameAreaWidth() / this.getGameAreaHeight(); }
-
-	getMouseVector2() {
-		var rect = this.canvas.getBoundingClientRect();
-		var mouseVector2 = new THREE.Vector2();
-
-		mouseVector2.x = ((event.clientX - rect.left) / this.getGameAreaWidth()) * 2 - 1;
-		mouseVector2.y = -((event.clientY - rect.top) / this.getGameAreaHeight()) * 2 + 1;
-
-		return mouseVector2;
-	}
-
-	onKeyDownHandler(event) {
-		this.partialView.onKeyDownHandler(event);
-		this.render();
-	}
-
-	onMouseMoveHandler(event) {
+	intersectObjects(eventPosX, eventPosY) {
 		let intersects = null;
 
-		this.raycaster.setFromCamera(this.getMouseVector2(), this.camera);
+		this.raycaster.setFromCamera(this.getMouseVector2(eventPosX, eventPosY), this.camera);
 
 		intersects = this.raycaster.intersectObjects(this.intersectMeshs, true);
 
@@ -194,13 +170,9 @@ class View extends Observable {
 				}
 			}
 		}
-
-		this.render();
 	}
 
-	onMouseUpHandler() {
-		this.partialView.onMouseUpHandler(event);
-
+	useIntersectedObject() {
 		if (this.selectedObject !== null) {
 			this.emit(this.selectedObject.userData.actionHandler);
 
@@ -243,9 +215,129 @@ class View extends Observable {
 				this.selectedGround = null;
 			}
 		}
+	}
+
+	setPartialView(obj) {
+		this.partialView = obj;
+
+		this.scene = this.partialView.scene;
+		this.intersectMeshs = this.partialView.intersectMeshs;
+
+		this.partialView.show();
+	}
+
+	showGameView() {
+		this.setPartialView(this.gameView);
+	}
+
+	showHighscoreView() {
+		this.setPartialView(this.highscoreView);
+	}
+
+	showMenuView() {
+		this.setPartialView(this.menuView);
+	}
+
+	showOptionsView() {
+		this.setPartialView(this.optionsView);
+	}
+
+
+	getGameAreaHeight() { return this.canvas.offsetHeight; }
+	getGameAreaWidth() { return this.canvas.offsetWidth; }
+
+	getCameraAspect() { return this.getGameAreaWidth() / this.getGameAreaHeight(); }
+
+	getMouseVector2(eventPosX, eventPosY) {
+		let rect = this.canvas.getBoundingClientRect();
+		let mouseVector2 = new THREE.Vector2();
+
+		mouseVector2.x = ((eventPosX - rect.left) / this.getGameAreaWidth()) * 2 - 1;
+		mouseVector2.y = -((eventPosY - rect.top) / this.getGameAreaHeight()) * 2 + 1;
+
+		return mouseVector2;
+	}
+
+	handlePointerDown(eventPosX, eventPosY) {
+		this.isPointerDown = true;
+		this.startPointerVector = this.getMouseVector2(eventPosX, eventPosY);
+
+		this.pointerDownVector.copy(this.startPointerVector);
+	}
+
+	handlePointerMove(eventPosX, eventPosY) {
+		if (this.partialView === null) {
+			return;
+		}
+
+		this.partialView.handlePointerMove(eventPosX, eventPosY);
+
+		if (this.isPointerDown === false) {
+			this.intersectObjects(eventPosX, eventPosY);
+		} else {
+			if (this.partialView.container) {
+				this.endPointerVector = this.getMouseVector2(eventPosX, eventPosY);
+				this.differencePointerVector.subVectors(this.endPointerVector, this.startPointerVector);
+
+				this.partialView.rotateGameBoard(this.differencePointerVector);
+
+				this.startPointerVector.copy(this.endPointerVector);
+			}
+		}
+
+		this.render();
+	}
+
+	handlePointerUp(eventPosX, eventPosY) {
+		if (this.partialView === null) {
+			return;
+		}
+
+		this.partialView.handlePointerUp(eventPosX, eventPosY);
+
+		let currentPointerPos = this.getMouseVector2(eventPosX, eventPosY);
+
+		if (this.matchClick(currentPointerPos, this.pointerDownVector)) {
+			this.useIntersectedObject();
+		}
+
+		this.isPointerDown = false;
 
 		this.partialView.updateTextures();
 		this.render();
+	}
+
+	onKeyDownHandler(event) {
+		this.partialView.onKeyDownHandler(event);
+		this.render();
+	}
+
+	onMouseDownHandler(event) {
+		this.handlePointerDown(event.clientX, event.clientY);
+	}
+
+	onMouseMoveHandler(event) {
+		event.preventDefault();
+
+		this.handlePointerMove(event.clientX, event.clientY);
+	}
+
+	onMouseUpHandler(event) {
+		this.handlePointerUp(event.clientX, event.clientY);
+	}
+
+	onTouchStartHandler(event) {
+		this.handlePointerDown(event.touches[0].pageX, event.touches[0].pageY);
+	}
+
+	onTouchMoveHandler(event) {
+		event.preventDefault();
+
+		this.handlePointerMove(event.touches[0].pageX, event.touches[0].pageY);
+	}
+
+	onTouchEndHandler(event) {
+		this.handlePointerUp(event.changedTouches[0].pageX, event.changedTouches[0].pageY);
 	}
 
 	onResizeHandler(event) {

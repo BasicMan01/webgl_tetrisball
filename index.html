@@ -9,13 +9,23 @@
 
 		<title>Tetrisball</title>
 
-		<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+		<link rel="icon" href="resources/icon/icon_32.png">
 		<link rel="manifest" href="resources/json/manifest.json">
 		<link rel="stylesheet" type="text/css" href="resources/css/global.css">
 	</head>
 
 	<body class="webgl">
 		<div id="webGlCanvas" oncontextmenu="return false"></div>
+		
+		<div id="installAppBanner" class="install-banner">
+			<div class="install-banner-text">
+				<span>Add Tetrisball to home screen?</span>
+			</div>
+			<div class="install-banner-controls">
+				<input type="button" id="btnAccept" value="Accept">
+				<input type="button" id="btnDecline" value="Decline">
+			</div>
+		</div>
 
 		<script type="text/javascript" src="lib/threejs_97/three.min.js"></script>
 

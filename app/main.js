@@ -17,32 +17,52 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	window.addEventListener('beforeinstallprompt', (event) => {
-		let banner = document.getElementById('installAppBanner');
-		
 		// Prevent Chrome 67 and earlier from automatically showing the prompt
 		event.preventDefault();
 
-		// Stash the event so it can be triggered later.
-		deferredPrompt = event;
+		if (document.cookie.indexOf('tetrisball_installApp') === -1) {
+			let banner = document.getElementById('installAppBanner');
 
-		banner.style.display = 'block';
-		
-		document.getElementById('btnAccept').addEventListener('click', (event) => {
-			banner.style.display = 'none';
+			// Stash the event so it can be triggered later.
+			deferredPrompt = event;
 
-			// Show the prompt
-			deferredPrompt.prompt();
+			banner.style.display = 'block';
 
-			// Wait for the user to respond to the prompt
-			deferredPrompt.userChoice.then((choiceResult) => {
+			document.getElementById('btnAccept').addEventListener('click', (event) => {
+				banner.style.display = 'none';
+
+				// Show the prompt
+				deferredPrompt.prompt();
+
+				// Wait for the user to respond to the prompt
+				deferredPrompt.userChoice.then((choiceResult) => {
+					deferredPrompt = null;
+				});
+			});
+
+			document.getElementById('btnDecline').addEventListener('click', (event) => {
+				let cookie = '';
+				let date = new Date();
+				let iso = date.toISOString();
+				let sec = 30 * 24 * 60 * 60;
+
+				date.setTime(date.getTime() + (sec * 1000));
+
+				cookie  = 'tetrisball_installApp=' + iso + ';';
+				cookie += 'path=/;';
+				cookie += 'max-age=' + sec + ';';
+				cookie += 'expires=' + date.toUTCString() + ';';
+
+				if (location.protocol === 'https:') {
+					cookie += 'secure;';
+				}
+
+				document.cookie = cookie;
+
+				banner.style.display = 'none';
+
 				deferredPrompt = null;
 			});
-		});
-		
-		document.getElementById('btnDecline').addEventListener('click', (event) => {
-			banner.style.display = 'none';
-			
-			deferredPrompt = null;
-		});
+		}
 	});
 });

@@ -95,13 +95,13 @@ class View extends Observable {
 		this.renderer.render(this.scene, this.camera);
 	}
 
-	addTextBasePlane(scene) {
+	addTextBasePlane(parent) {
 		let plane = new THREE.Mesh(
 			new THREE.PlaneGeometry(1, 1),
 			new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, transparent: true, opacity: 1 })
 		);
 
-		scene.add(plane);
+		parent.add(plane);
 
 		return plane;
 	}

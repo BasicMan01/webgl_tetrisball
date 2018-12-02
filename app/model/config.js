@@ -3,7 +3,6 @@ class Config {
 		this.font = {};
 		this.language = '';
 		this.texts = {};
-		this.fontBg = null;
 
 		this.loader = new THREE.FileLoader();
 	}

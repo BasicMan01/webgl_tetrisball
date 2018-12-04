@@ -106,12 +106,26 @@ class GameView extends BaseView {
 		} else if (this.container.rotation.x < -Math.PI / 2) {
 			this.container.rotation.x = -Math.PI / 2;
 		}
+		
+		if (this.container.scale.x < 2) {
+			this.container.scale.set(2, 2, 2);
+		} else if (this.container.scale.x > 4) {
+			this.container.scale.set(4, 4, 4);
+		}
 	}
 
 	rotateGameBoard(vec) {
 		this.container.rotation.x -= vec.y * 2;
 		this.container.rotation.z += vec.x * 2;
 
+		this.readjustLimit();
+	}
+	
+	scaleGameBoard(val) {
+		this.container.scale.x += val;
+		this.container.scale.y += val;
+		this.container.scale.z += val;
+		
 		this.readjustLimit();
 	}
 

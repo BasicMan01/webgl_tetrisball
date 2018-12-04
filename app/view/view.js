@@ -57,6 +57,7 @@ class View extends Observable {
 		this.renderer.domElement.addEventListener('mousedown', this.onMouseDownHandler.bind(this), false);
 		this.renderer.domElement.addEventListener('mousemove', this.onMouseMoveHandler.bind(this), false);
 		this.renderer.domElement.addEventListener('mouseup', this.onMouseUpHandler.bind(this), false);
+		this.renderer.domElement.addEventListener('mousewheel', this.onMouseWheelHandler.bind(this), false);
 		this.renderer.domElement.addEventListener('touchstart', this.onTouchStartHandler.bind(this), false);
 		this.renderer.domElement.addEventListener('touchmove', this.onTouchMoveHandler.bind(this), false);
 		this.renderer.domElement.addEventListener('touchend', this.onTouchEndHandler.bind(this), false);
@@ -258,6 +259,17 @@ class View extends Observable {
 		return mouseVector2;
 	}
 
+	handleMouseWheel(eventDelta) {
+		if (this.partialView === null) {
+			return;
+		}
+		
+		if (this.partialView.container) {
+			this.partialView.scaleGameBoard(eventDelta / 1000);
+			this.render();
+		}
+	}
+	
 	handlePointerDown(eventPosX, eventPosY) {
 		this.isPointerDown = true;
 		this.startPointerVector = this.getMouseVector2(eventPosX, eventPosY);
@@ -324,6 +336,12 @@ class View extends Observable {
 
 	onMouseUpHandler(event) {
 		this.handlePointerUp(event.clientX, event.clientY);
+	}
+	
+	onMouseWheelHandler(event) {
+		event.preventDefault();
+		
+		this.handleMouseWheel(event.deltaY);
 	}
 
 	onTouchStartHandler(event) {

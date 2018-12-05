@@ -52,15 +52,6 @@ class MenuView extends BaseView {
 			{text: texts.navigationOptions, x: 0, y: -4, scale: 2, opacity: 0.2}
 		);
 	}
-
-	onKeyDownHandler(event) {
-	}
-
-	handlePointerMove(eventPosX, eventPosY) {
-	}
-
-	handlePointerUp(eventPosX, eventPosY) {
-	}
 }
 
 export default MenuView;

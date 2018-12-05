@@ -208,33 +208,6 @@ class GameView extends BaseView {
 			}
 		}
 	}
-
-	onKeyDownHandler(event) {
-		switch (event.keyCode) {
-			case 88: { // X
-				this.container.scale.x += 0.1;
-				this.container.scale.y += 0.1;
-				this.container.scale.z += 0.1;
-			} break;
-
-			case 89: { // Y
-				this.container.scale.x -= 0.1;
-				this.container.scale.y -= 0.1;
-				this.container.scale.z -= 0.1;
-			} break;
-
-			case 32: {
-				console.log(this.container.rotation);
-				console.log(this.container.scale);
-			} break;
-		}
-	}
-
-	handlePointerMove(eventPosX, eventPosY) {
-	}
-
-	handlePointerUp(eventPosX, eventPosY) {
-	}
 }
 
 export default GameView;

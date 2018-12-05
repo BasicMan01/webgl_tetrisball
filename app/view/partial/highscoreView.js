@@ -128,15 +128,6 @@ class HighscoreView extends BaseView {
 		this.updateTextures();
 		this.mainView.render();
 	}
-
-	onKeyDownHandler(event) {
-	}
-
-	handlePointerMove(eventPosX, eventPosY) {
-	}
-
-	handlePointerUp(eventPosX, eventPosY) {
-	}
 }
 
 export default HighscoreView;

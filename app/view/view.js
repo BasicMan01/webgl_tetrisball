@@ -32,6 +32,10 @@ class View extends Observable {
 		this.startPointerVector = new THREE.Vector2();
 		this.endPointerVector = new THREE.Vector2();
 		this.differencePointerVector = new THREE.Vector2();
+		
+		this.startZoomDistance = 0;
+		this.endZoomDistance = 0;
+		this.differenceZoomDinstance = 0;
 
 
 
@@ -62,7 +66,6 @@ class View extends Observable {
 		this.renderer.domElement.addEventListener('touchmove', this.onTouchMoveHandler.bind(this), false);
 		this.renderer.domElement.addEventListener('touchend', this.onTouchEndHandler.bind(this), false);
 
-		window.addEventListener('keydown', this.onKeyDownHandler.bind(this), false);
 		window.addEventListener('resize', this.onResizeHandler.bind(this), false);
 
 		this.load();
@@ -259,19 +262,18 @@ class View extends Observable {
 		return mouseVector2;
 	}
 
-	handleMouseWheel(eventDelta) {
+	handleZoom(delta) {
 		if (this.partialView === null) {
 			return;
 		}
 		
 		if (this.partialView.container) {
-			this.partialView.scaleGameBoard(eventDelta / 1000);
+			this.partialView.scaleGameBoard(delta);
 			this.render();
 		}
 	}
 	
 	handlePointerDown(eventPosX, eventPosY) {
-		this.isPointerDown = true;
 		this.startPointerVector = this.getMouseVector2(eventPosX, eventPosY);
 
 		this.pointerDownVector.copy(this.startPointerVector);
@@ -281,8 +283,6 @@ class View extends Observable {
 		if (this.partialView === null) {
 			return;
 		}
-
-		this.partialView.handlePointerMove(eventPosX, eventPosY);
 
 		if (this.isPointerDown === false) {
 			this.intersectObjects(eventPosX, eventPosY);
@@ -305,26 +305,19 @@ class View extends Observable {
 			return;
 		}
 
-		this.partialView.handlePointerUp(eventPosX, eventPosY);
-
 		let currentPointerPos = this.getMouseVector2(eventPosX, eventPosY);
 
 		if (this.matchClick(currentPointerPos, this.pointerDownVector)) {
 			this.useIntersectedObject();
 		}
 
-		this.isPointerDown = false;
-
 		this.partialView.updateTextures();
 		this.render();
 	}
 
-	onKeyDownHandler(event) {
-		this.partialView.onKeyDownHandler(event);
-		this.render();
-	}
-
 	onMouseDownHandler(event) {
+		this.isPointerDown = true;
+		
 		this.handlePointerDown(event.clientX, event.clientY);
 	}
 
@@ -336,26 +329,59 @@ class View extends Observable {
 
 	onMouseUpHandler(event) {
 		this.handlePointerUp(event.clientX, event.clientY);
+		
+		this.isPointerDown = false;
 	}
 	
 	onMouseWheelHandler(event) {
 		event.preventDefault();
 		
-		this.handleMouseWheel(event.deltaY);
+		this.handleZoom(event.deltaY / -1000);
 	}
 
 	onTouchStartHandler(event) {
-		this.handlePointerDown(event.touches[0].pageX, event.touches[0].pageY);
+		this.isPointerDown = true;
+		
+		switch (event.touches.length) {
+			case 1: {
+				this.handlePointerDown(event.touches[0].pageX, event.touches[0].pageY);
+			} break;
+			
+			case 2: {
+				let dx = event.touches[0].pageX - event.touches[1].pageX;
+				let dy = event.touches[0].pageY - event.touches[1].pageY;
+
+				this.startZoomDistance = Math.sqrt(dx * dx + dy * dy);
+			} break;
+		}
 	}
 
 	onTouchMoveHandler(event) {
 		event.preventDefault();
-
-		this.handlePointerMove(event.touches[0].pageX, event.touches[0].pageY);
+		
+		switch (event.touches.length) {
+			case 1: {
+				this.handlePointerMove(event.touches[0].pageX, event.touches[0].pageY);
+			} break;
+			
+			case 2: {
+				let dx = event.touches[0].pageX - event.touches[1].pageX;
+				let dy = event.touches[0].pageY - event.touches[1].pageY;
+				
+				this.endZoomDistance = Math.sqrt(dx * dx + dy * dy);
+				this.differenceZoomDinstance = this.endZoomDistance - this.startZoomDistance;
+				
+				this.handleZoom(this.differenceZoomDinstance / 100);
+				
+				this.startZoomDistance = this.endZoomDistance;
+			} break;
+		}
 	}
 
 	onTouchEndHandler(event) {
 		this.handlePointerUp(event.changedTouches[0].pageX, event.changedTouches[0].pageY);
+		
+		this.isPointerDown = false;
 	}
 
 	onResizeHandler(event) {

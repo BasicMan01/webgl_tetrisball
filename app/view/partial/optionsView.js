@@ -63,15 +63,6 @@ class OptionsView extends BaseView {
 			{text: '\u25C4 ' + texts.navigationMenu, x: -16, y: -13, opacity: 0.2, scale: 2, align: 'left'}
 		);
 	}
-
-	onKeyDownHandler(event) {
-	}
-
-	handlePointerMove(eventPosX, eventPosY) {
-	}
-
-	handlePointerUp(eventPosX, eventPosY) {
-	}
 }
 
 export default OptionsView;

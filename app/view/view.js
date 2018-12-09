@@ -32,7 +32,7 @@ class View extends Observable {
 		this.startPointerVector = new THREE.Vector2();
 		this.endPointerVector = new THREE.Vector2();
 		this.differencePointerVector = new THREE.Vector2();
-		
+
 		this.startZoomDistance = 0;
 		this.endZoomDistance = 0;
 		this.differenceZoomDinstance = 0;
@@ -225,7 +225,12 @@ class View extends Observable {
 		this.partialView = obj;
 
 		this.scene = this.partialView.scene;
+
 		this.intersectMeshs = this.partialView.intersectMeshs;
+		this.selectedObject = null;
+		this.selectedBlock = null;
+		this.selectedGround = null;
+		this.markedBlock = null;
 
 		this.partialView.show();
 	}
@@ -266,13 +271,13 @@ class View extends Observable {
 		if (this.partialView === null) {
 			return;
 		}
-		
+
 		if (this.partialView.container) {
 			this.partialView.scaleGameBoard(delta);
 			this.render();
 		}
 	}
-	
+
 	handlePointerDown(eventPosX, eventPosY) {
 		this.startPointerVector = this.getMouseVector2(eventPosX, eventPosY);
 
@@ -317,7 +322,7 @@ class View extends Observable {
 
 	onMouseDownHandler(event) {
 		this.isPointerDown = true;
-		
+
 		this.handlePointerDown(event.clientX, event.clientY);
 	}
 
@@ -329,24 +334,24 @@ class View extends Observable {
 
 	onMouseUpHandler(event) {
 		this.handlePointerUp(event.clientX, event.clientY);
-		
+
 		this.isPointerDown = false;
 	}
-	
+
 	onMouseWheelHandler(event) {
 		event.preventDefault();
-		
+
 		this.handleZoom(event.deltaY / -1000);
 	}
 
 	onTouchStartHandler(event) {
 		this.isPointerDown = true;
-		
+
 		switch (event.touches.length) {
 			case 1: {
 				this.handlePointerDown(event.touches[0].pageX, event.touches[0].pageY);
 			} break;
-			
+
 			case 2: {
 				let dx = event.touches[0].pageX - event.touches[1].pageX;
 				let dy = event.touches[0].pageY - event.touches[1].pageY;
@@ -358,21 +363,21 @@ class View extends Observable {
 
 	onTouchMoveHandler(event) {
 		event.preventDefault();
-		
+
 		switch (event.touches.length) {
 			case 1: {
 				this.handlePointerMove(event.touches[0].pageX, event.touches[0].pageY);
 			} break;
-			
+
 			case 2: {
 				let dx = event.touches[0].pageX - event.touches[1].pageX;
 				let dy = event.touches[0].pageY - event.touches[1].pageY;
-				
+
 				this.endZoomDistance = Math.sqrt(dx * dx + dy * dy);
 				this.differenceZoomDinstance = this.endZoomDistance - this.startZoomDistance;
-				
+
 				this.handleZoom(this.differenceZoomDinstance / 100);
-				
+
 				this.startZoomDistance = this.endZoomDistance;
 			} break;
 		}
@@ -380,7 +385,7 @@ class View extends Observable {
 
 	onTouchEndHandler(event) {
 		this.handlePointerUp(event.changedTouches[0].pageX, event.changedTouches[0].pageY);
-		
+
 		this.isPointerDown = false;
 	}
 

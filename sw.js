@@ -34,6 +34,7 @@ self.addEventListener('install', (event) => {
 				'/webgl_tetrisball/resources/icon/icon_32.png',
 				'/webgl_tetrisball/resources/icon/icon_512.png',
 				'/webgl_tetrisball/resources/json/manifest.json',
+				'/webgl_tetrisball/resources/language/cn.json',
 				'/webgl_tetrisball/resources/language/de.json',
 				'/webgl_tetrisball/resources/language/en.json',
 				'/webgl_tetrisball/resources/music/track_01.mp3',

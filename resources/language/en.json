@@ -4,10 +4,11 @@
 	"gamePoints": "POINTS",
 	"gameRounds": "ROUNDS",
 	"highscoreReset": "RESET",
-	"navigationMenu": "HOME",
-	"navigationPlay": "PLAY",
 	"navigationHighscore": "HIGHSCORE",
+	"navigationMenu": "HOME",
 	"navigationOptions": "OPTIONS",
+	"navigationPlay": "PLAY",
+	"optionsLanguage": "LANGUAGE",
 	"optionsMusic": "MUSIC",
 	"optionsOn": "ON",
 	"optionsOff": "OFF"

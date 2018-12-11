@@ -15,7 +15,7 @@ class Controller {
 
 	init() {
 		this.highscore = new Highscore();
-		this.options = new Options();
+		this.options = new Options(this.config);
 		this.tetrisball = new Tetrisball();
 
 		this.view = new View(this.config, {
@@ -35,6 +35,8 @@ class Controller {
 		this.view.addCallback('resetHighscoreAction', this.resetHighscoreAction.bind(this));
 		// options
 		this.view.addCallback('setMusicAction', this.setMusicAction.bind(this));
+		this.view.addCallback('nextLanguageAction', this.nextLanguageAction.bind(this));
+		this.view.addCallback('previousLanguageAction', this.previousLanguageAction.bind(this));
 		// game
 		this.view.addCallback('addPreviewBlocksAction', this.addPreviewBlocksAction.bind(this));
 		this.view.addCallback('selectBlockAction', this.selectBlockAction.bind(this));
@@ -78,6 +80,24 @@ class Controller {
 		} else {
 			this.sound.stop();
 		}
+	}
+
+	nextLanguageAction() {
+		this.options.setNextLanguage();
+
+		this.config.loadLanguageFile(
+			this.options.language,
+			this.view.updateTextures.bind(this.view)
+		);
+	}
+
+	previousLanguageAction() {
+		this.options.setPreviousLanguage();
+
+		this.config.loadLanguageFile(
+			this.options.language,
+			this.view.updateTextures.bind(this.view)
+		);
 	}
 
 	addPreviewBlocksAction() {

@@ -4,10 +4,11 @@
 	"gamePoints": "\u70B9",
 	"gameRounds": "\u5706",
 	"highscoreReset": "\u91CD\u542F",
-	"navigationMenu": "\u5BB6",
-	"navigationPlay": "\u73A9",
 	"navigationHighscore": "\u9AD8\u5206",
+	"navigationMenu": "\u5BB6",
 	"navigationOptions": "\u9009\u9879",
+	"navigationPlay": "\u73A9",
+	"optionsLanguage": "\u8BED\u8A00",
 	"optionsMusic": "\u97F3\u4E50",
 	"optionsOn": "\u4E0A",
 	"optionsOff": "\u5173\u95ED"

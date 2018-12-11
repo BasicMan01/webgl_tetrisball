@@ -99,6 +99,11 @@ class View extends Observable {
 		this.renderer.render(this.scene, this.camera);
 	}
 
+	updateTextures() {
+		this.partialView.updateTextures();
+		this.render();
+	}
+
 	addTextBasePlane(parent) {
 		let plane = new THREE.Mesh(
 			new THREE.PlaneGeometry(1, 1),
@@ -316,8 +321,7 @@ class View extends Observable {
 			this.useIntersectedObject();
 		}
 
-		this.partialView.updateTextures();
-		this.render();
+		this.updateTextures();
 	}
 
 	onMouseDownHandler(event) {
@@ -395,8 +399,7 @@ class View extends Observable {
 
 		this.renderer.setSize(this.getGameAreaWidth(), this.getGameAreaHeight());
 
-		this.partialView.updateTextures();
-		this.render();
+		this.updateTextures();
 	}
 }
 

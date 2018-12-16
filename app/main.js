@@ -2,7 +2,15 @@ import Controller from './controller/controller.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 	let deferredPrompt;
+	let newWorker;
+	let reload = false;
 	let controller = new Controller();
+
+	document.getElementById('btnUpdate').addEventListener('click', () => {
+		reload = true;
+
+		newWorker.postMessage({ action: 'skipWaiting' });
+	});
 
 	if ('serviceWorker' in navigator) {
 		navigator.serviceWorker.register(
@@ -10,6 +18,31 @@ document.addEventListener('DOMContentLoaded', () => {
 		).then(registration => {
 			// Registration was successful
 			console.log('ServiceWorker registration successful with scope: ', registration.scope);
+
+			registration.addEventListener('updatefound', () => {
+				newWorker = registration.installing;
+
+				newWorker.addEventListener('statechange', () => {
+					switch (newWorker.state) {
+						case 'installed': {
+							// There is a new service worker available, show the notification
+							if (navigator.serviceWorker.controller) {
+								let banner = document.getElementById('updateAppBanner');
+
+								banner.style.display = 'block';
+							}
+						} break;
+
+						case 'activated': {
+							if (!reload) {
+								return;
+							}
+
+							window.location.reload();
+						} break;
+					}
+				});
+			});
 		}).catch(e => {
 			// Registration failed
 			console.log('ServiceWorker registration failed: ', e);

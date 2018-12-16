@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v.1';
+const CACHE_NAME = 'v.1.0';
 
 self.addEventListener('install', (event) => {
 	event.waitUntil(
@@ -52,6 +52,21 @@ self.addEventListener('install', (event) => {
 	);
 });
 
+self.addEventListener('activate', (event) => {
+	let expectedCaches = [CACHE_NAME];
+
+	event.waitUntil(
+		caches.keys().then((keys) => Promise.all(
+			keys.map((key) => {
+				// remove old caches
+				if (!expectedCaches.includes(key)) {
+					return caches.delete(key);
+				}
+			})
+		))
+	);
+});
+
 self.addEventListener('fetch', (event) => {
 	event.respondWith(
 		caches.match(
@@ -64,4 +79,10 @@ self.addEventListener('fetch', (event) => {
 			return fetch(event.request);
 		})
 	);
+});
+
+self.addEventListener('message', (event) => {
+	if (event.data.action === 'skipWaiting') {
+		self.skipWaiting();
+	}
 });

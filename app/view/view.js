@@ -91,8 +91,6 @@ class View extends Observable {
 		this.highscoreView = new HighscoreView(this, this.partialModels.highscore);
 
 		this.showMenuView();
-
-		this.render();
 	}
 
 	render() {
@@ -238,6 +236,7 @@ class View extends Observable {
 		this.markedBlock = null;
 
 		this.partialView.show();
+		this.render();
 	}
 
 	showGameView() {

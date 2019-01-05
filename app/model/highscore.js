@@ -62,7 +62,7 @@ class Highscore {
 	}
 
 	loadFromStorage() {
-		let itemsFromStorage = localStorage.getItem(this.storageKey);
+		let itemsFromStorage = window.localStorage.getItem(this.storageKey);
 
 		if (itemsFromStorage !== null) {
 			try {
@@ -74,7 +74,7 @@ class Highscore {
 	}
 
 	saveToStorage() {
-		localStorage.setItem(this.storageKey, JSON.stringify(this.items));
+		window.localStorage.setItem(this.storageKey, JSON.stringify(this.items));
 	}
 
 	applyName(content) {

@@ -20,6 +20,7 @@ class MenuView extends BaseView {
 		this.navToGameButton = this.mainView.addTextBasePlane(this.scene);
 		this.navToHighscoreButton = this.mainView.addTextBasePlane(this.scene);
 		this.navToOptionsButton = this.mainView.addTextBasePlane(this.scene);
+		this.versionLabel = this.mainView.addTextBasePlane(this.scene);
 
 		this.navToGameButton.userData.actionHandler = 'navToGameAction';
 		this.navToHighscoreButton.userData.actionHandler = 'navToHighscoreAction';
@@ -50,6 +51,11 @@ class MenuView extends BaseView {
 		this.mainView.fontTexture.setTextureToObject(
 			this.navToOptionsButton,
 			{text: texts.navigationOptions, x: 0, y: -4, scale: 2, opacity: 0.2}
+		);
+
+		this.mainView.fontTexture.setTextureToObject(
+			this.versionLabel,
+			{text: this.mainView.config.version, x: 14, y: -16, scale: 1, opacity: 0.2}
 		);
 	}
 }

@@ -1,15 +1,15 @@
 {
 	"cn": "\u4E2D\u56FD",
-	"gameFields": "\u5B57\u6BB5",
-	"gamePoints": "\u70B9",
-	"gameRounds": "\u5706",
-	"highscoreReset": "\u91CD\u542F",
+	"gameFields": "\u683C\u5B50",
+	"gamePoints": "\u6BD4\u5206",
+	"gameRounds": "\u8F6E",
+	"highscoreReset": "\u91CD\u7F6E",
 	"navigationHighscore": "\u9AD8\u5206",
-	"navigationMenu": "\u5BB6",
+	"navigationMenu": "\u4E3B\u9875",
 	"navigationOptions": "\u9009\u9879",
 	"navigationPlay": "\u73A9",
 	"optionsLanguage": "\u8BED\u8A00",
 	"optionsMusic": "\u97F3\u4E50",
-	"optionsOn": "\u4E0A",
+	"optionsOn": "\u6253\u5F00",
 	"optionsOff": "\u5173\u95ED"
 }

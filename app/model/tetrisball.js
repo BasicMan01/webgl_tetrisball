@@ -48,6 +48,7 @@ class Tetrisball {
 
 		this.createPreview();
 		this.createBlocks();
+		this.addPreview();
 	}
 
 	addPreview() {

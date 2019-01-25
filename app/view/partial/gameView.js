@@ -139,7 +139,7 @@ class GameView extends BaseView {
 
 		this.mainView.fontTexture.setTextureToObject(
 			this.addPreviewBlocksButton,
-			{text: '\u25BA', x: x, y: 12, scale: 2, opacity: 0.2, useAspectRatio: false }
+			{text: '\u2795', x: x, y: 11.5, scale: 2, opacity: 0.2, useAspectRatio: false }
 		);
 
 		this.mainView.fontTexture.setTextureToObject(

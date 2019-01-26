@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v.1.04';
+const CACHE_NAME = 'v.1.05';
 
 self.addEventListener('install', (event) => {
 	event.waitUntil(
@@ -27,7 +27,7 @@ self.addEventListener('install', (event) => {
 				'/webgl_tetrisball/lib/rdo/fontTexture.js',
 				'/webgl_tetrisball/lib/rdo/helper.js',
 				'/webgl_tetrisball/lib/rdo/sound.js',
-				'/webgl_tetrisball/lib/threejs_97/three.min.js',
+				'/webgl_tetrisball/lib/threejs_100/three.min.js',
 				'/webgl_tetrisball/resources/config/config.json',
 				'/webgl_tetrisball/resources/css/global.css',
 				'/webgl_tetrisball/resources/icon/icon_192.png',

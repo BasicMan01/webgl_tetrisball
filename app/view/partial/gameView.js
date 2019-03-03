@@ -14,9 +14,9 @@ class GameView extends BaseView {
 		this.textLabelFields = null;
 		this.textLabelRounds = null;
 		this.textLabelPoints = null;
-		this.textInfoFields = null;
-		this.textInfoRounds = null;
-		this.textInfoPoints = null;
+		this.textValueFields  = null;
+		this.textValueRounds = null;
+		this.textValuePoints = null;
 
 		this.intersectMeshs = [];
 		this.intersectBlockMeshs = [];

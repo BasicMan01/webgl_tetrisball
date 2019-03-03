@@ -9,6 +9,7 @@ class MenuView extends BaseView {
 		this.navToGameButton = null;
 		this.navToHighscoreButton = null;
 		this.navToOptionsButton = null;
+		this.versionLabel = null;
 		this.intersectMeshs = [];
 
 		this.scene = new THREE.Scene();

@@ -1,4 +1,5 @@
-const CACHE_NAME = 'v.1.06';
+const CACHE_VERSION = 'v.1.07';
+const CACHE_NAME = 'tetrisball/' + CACHE_VERSION
 
 self.addEventListener('install', (event) => {
 	event.waitUntil(
@@ -8,7 +9,6 @@ self.addEventListener('install', (event) => {
 			return cache.addAll([
 				'/webgl_tetrisball/',
 				'/webgl_tetrisball/index.html',
-				'/webgl_tetrisball/sw.js',
 				'/webgl_tetrisball/app/main.js',
 				'/webgl_tetrisball/app/classes/objectMap.js',
 				'/webgl_tetrisball/app/classes/observable.js',
@@ -30,8 +30,8 @@ self.addEventListener('install', (event) => {
 				'/webgl_tetrisball/lib/threejs_100/three.min.js',
 				'/webgl_tetrisball/resources/config/config.json',
 				'/webgl_tetrisball/resources/css/global.css',
-				'/webgl_tetrisball/resources/icon/icon_192.png',
 				'/webgl_tetrisball/resources/icon/icon_32.png',
+				'/webgl_tetrisball/resources/icon/icon_192.png',
 				'/webgl_tetrisball/resources/icon/icon_512.png',
 				'/webgl_tetrisball/resources/json/manifest.json',
 				'/webgl_tetrisball/resources/language/cn.json',
@@ -82,7 +82,13 @@ self.addEventListener('fetch', (event) => {
 });
 
 self.addEventListener('message', (event) => {
-	if (event.data.action === 'skipWaiting') {
-		self.skipWaiting();
+	switch (event.data.action) {
+		case 'getCacheName': {
+			event.source.postMessage(CACHE_VERSION);
+		} break;
+
+		case 'skipWaiting': {
+			self.skipWaiting();
+		} break;
 	}
 });

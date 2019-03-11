@@ -6,10 +6,11 @@ import Tetrisball from '../model/tetrisball.js';
 import View from '../view/view.js';
 
 class Controller {
-	constructor() {
+	constructor(version) {
 		this.sound = new Sound();
 
 		this.config = new Config();
+		this.config.version = version;
 		this.config.load(this.init.bind(this));
 	}
 
@@ -43,6 +44,8 @@ class Controller {
 		this.view.addCallback('selectGroundAction', this.selectGroundAction.bind(this));
 	}
 
+
+	// MENU
 	navToGameAction() {
 		this.tetrisball.newGame();
 		this.view.showGameView();
@@ -60,6 +63,8 @@ class Controller {
 		this.view.showOptionsView();
 	}
 
+
+	// HIGHSCORE
 	saveNameToHighscoreAction() {
 		this.highscore.save();
 	}
@@ -72,6 +77,8 @@ class Controller {
 		this.highscore.reset();
 	}
 
+
+	// OPTIONS
 	setMusicAction() {
 		this.options.music = !this.options.music;
 
@@ -100,6 +107,8 @@ class Controller {
 		);
 	}
 
+
+	// GAME
 	addPreviewBlocksAction() {
 		this.tetrisball.addPreview();
 

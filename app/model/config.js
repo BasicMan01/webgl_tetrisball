@@ -7,8 +7,6 @@ class Config {
 		this.version = '';
 
 		this.loader = new THREE.FileLoader();
-
-		this.loadVersion();
 	}
 
 	getLanguageFilePath(code) {
@@ -75,18 +73,6 @@ class Config {
 				reject('loading error ' + img.src);
 			};
 		});
-	}
-
-	loadVersion() {
-		let self = this;
-
-		window.caches.keys().then((keys) => Promise.all(
-			keys.map((key) => {
-				self.version = key;
-
-				return true;
-			})
-		));
 	}
 }
 

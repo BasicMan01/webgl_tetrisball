@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	let deferredPrompt;
 	let newWorker;
 	let reload = false;
-	let controller = new Controller();
+	let controller;
 
-	document.getElementById('btnUpdate').addEventListener('click', () => {
+	document.getElementById('btnRefresh').addEventListener('click', () => {
 		reload = true;
 
 		newWorker.postMessage({ action: 'skipWaiting' });
@@ -23,11 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
 				newWorker = registration.installing;
 
 				newWorker.addEventListener('statechange', () => {
+					console.log('State changed to ' + newWorker.state);
+
 					switch (newWorker.state) {
 						case 'installed': {
 							// There is a new service worker available, show the notification
 							if (navigator.serviceWorker.controller) {
-								let banner = document.getElementById('updateAppBanner');
+								let banner = document.getElementById('refreshAppBanner');
 
 								banner.style.display = 'block';
 							}
@@ -46,6 +48,18 @@ document.addEventListener('DOMContentLoaded', () => {
 		}).catch(e => {
 			// Registration failed
 			console.log('ServiceWorker registration failed: ', e);
+		});
+
+		navigator.serviceWorker.ready
+		.then((registration) => {
+			if (registration.active) {
+				registration.active.postMessage({ action: 'getCacheName' });
+			}
+		});
+
+		navigator.serviceWorker.addEventListener("message", (event) => {
+			// Create controller only if version is known
+			controller = new Controller(event.data);
 		});
 	}
 

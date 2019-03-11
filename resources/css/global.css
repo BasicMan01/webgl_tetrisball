@@ -31,6 +31,6 @@ body.webgl { overflow: hidden; }
 
 .app-banner-controls #btnAccept { background-color: #AAFFAA; }
 .app-banner-controls #btnDecline { background-color: #FFAAAA; }
-.app-banner-controls #btnUpdate { background-color: #AAFFAA; }
+.app-banner-controls #btnRefresh { background-color: #AAFFAA; }
 
 #webGlCanvas  { font-family: 'Courier New'; font-size: 11px; height: 100%; width: 100%; }

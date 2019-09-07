@@ -2,17 +2,12 @@ import BaseView from './baseView.js';
 
 class MenuView extends BaseView {
 	constructor(mainView) {
-		super();
-
-		this.mainView = mainView;
+		super(mainView);
 
 		this.navToGameButton = null;
 		this.navToHighscoreButton = null;
 		this.navToOptionsButton = null;
 		this.versionLabel = null;
-		this.intersectMeshs = [];
-
-		this.scene = new THREE.Scene();
 
 		this.createObjects();
 	}
@@ -33,6 +28,8 @@ class MenuView extends BaseView {
 	}
 
 	show() {
+		this.selectedObject = null;
+		
 		this.updateTextures();
 	}
 

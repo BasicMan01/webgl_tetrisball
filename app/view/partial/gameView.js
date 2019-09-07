@@ -4,9 +4,8 @@ import BaseView from './baseView.js';
 
 class GameView extends BaseView {
 	constructor(mainView, model) {
-		super();
+		super(mainView);
 
-		this.mainView = mainView;
 		this.model = model;
 
 		this.addPreviewBlocksButton = null;
@@ -18,17 +17,17 @@ class GameView extends BaseView {
 		this.textValueRounds = null;
 		this.textValuePoints = null;
 
-		this.intersectMeshs = [];
 		this.intersectBlockMeshs = [];
 		this.intersectGroundMeshs = [];
 		this.intersectGameMeshs = [];
+		this.selectedBlock = null;
+		this.selectedGround = null;
+		this.markedBlock = null;
 
 		this.container = new THREE.Group();
 		this.blocks = [];
 		this.grounds = [];
 		this.previewBlocks = [];
-
-		this.scene = new THREE.Scene();
 
 		this.createObjects();
 	}
@@ -100,6 +99,89 @@ class GameView extends BaseView {
 		}
 	}
 
+	intersectObjects(pointerVector, camera) {
+		super.intersectObjects(pointerVector, camera);
+
+		let intersects = null;
+
+		if (this.markedBlock === null) {
+			intersects = this.raycaster.intersectObjects(this.intersectBlockMeshs, true);
+
+			if (this.selectedBlock !== null) {
+				this.selectedBlock.material.opacity = 1;
+				this.selectedBlock = null;
+			}
+
+			if (intersects.length > 0) {
+				this.selectedBlock = intersects[0].object;
+				this.selectedBlock.material.opacity = 0.5;
+			}
+		} else {
+			intersects = this.raycaster.intersectObjects(this.intersectGameMeshs, true);
+
+			if (this.selectedGround !== null) {
+				this.selectedGround.material.map = this.mainView.textureManager.get('nonPick');
+				this.selectedGround = null;
+			}
+
+			if (this.selectedBlock !== null && this.markedBlock !== this.selectedBlock) {
+				this.selectedBlock.material.opacity = 1;
+				this.selectedBlock = null;
+			}
+
+			if (intersects.length > 0) {
+				if (intersects[0].object.userData.type === 'ground') {
+					this.selectedGround = intersects[0].object;
+					this.selectedGround.material.map = this.mainView.textureManager.get('pick');
+				} else if (intersects[0].object.userData.type === 'block') {
+					this.selectedBlock = intersects[0].object;
+					this.selectedBlock.material.opacity = 0.5;
+				}
+			}
+		}
+	}
+
+	useIntersectedObject() {
+		super.useIntersectedObject();
+
+		// the mouse pointer is over a block element
+		if (this.selectedGround === null && this.selectedBlock !== null) {
+			if (this.markedBlock !== null) {
+				this.markedBlock.material.opacity = 1;
+			}
+
+			if (this.markedBlock !== this.selectedBlock) {
+				this.markedBlock = this.selectedBlock;
+				this.selectedBlock = null;
+
+				this.mainView.emit(this.markedBlock.userData.actionHandler, {
+					curX: this.markedBlock.userData.x,
+					curY: this.markedBlock.userData.y
+				});
+			} else {
+				// unselect selected block
+				this.markedBlock = null;
+				this.selectedBlock = null;
+			}
+		}
+
+		// the mouse pointer is over a ground element
+		if (this.selectedGround !== null && this.markedBlock !== null) {
+			let wayFound = this.mainView.emit(this.selectedGround.userData.actionHandler, {
+				curX: this.markedBlock.userData.x,
+				curY: this.markedBlock.userData.y,
+				endX: this.selectedGround.userData.x,
+				endY: this.selectedGround.userData.y
+			});
+
+			if (wayFound) {
+				this.markedBlock.material.opacity = 1;
+				this.markedBlock = null;
+				this.selectedGround = null;
+			}
+		}
+	}
+
 	readjustLimit() {
 		if (this.container.rotation.x > 0) {
 			this.container.rotation.x = 0;
@@ -130,6 +212,17 @@ class GameView extends BaseView {
 	}
 
 	show() {
+		this.selectedObject = null;
+		this.selectedBlock = null;
+		this.selectedGround = null;
+		this.markedBlock = null;
+
+		for (let y = 0; y < this.model.size; y++) {
+			for (let x = 0; x < this.model.size; x++) {
+				this.blocks[y][x].material.opacity = 1;
+			}
+		}
+
 		this.updateTextures();
 	}
 

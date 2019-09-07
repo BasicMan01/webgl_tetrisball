@@ -4,19 +4,15 @@ import BaseView from './baseView.js';
 
 class HighscoreView extends BaseView {
 	constructor(mainView, model) {
-		super();
+		super(mainView);
 
-		this.mainView = mainView;
 		this.model = model;
 
 		this.highscoreItems = [];
 		this.resetButton = null;
 		this.saveButton = null;
 		this.navToMenuButton = null;
-		this.intersectMeshs = [];
 		this.hiddenInput = null;
-
-		this.scene = new THREE.Scene();
 
 		this.createObjects();
 	}
@@ -54,6 +50,8 @@ class HighscoreView extends BaseView {
 	}
 
 	show() {
+		this.selectedObject = null;
+		
 		if (this.model.insertNewName) {
 			this.hiddenInput.focus();
 			this.hiddenInput.value = '';

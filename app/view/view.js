@@ -20,12 +20,6 @@ class View extends Observable {
 		this.optionsView = null;
 		this.highscoreView = null;
 
-		this.intersectMeshs = [];
-		this.selectedObject = null;
-		this.selectedBlock = null;
-		this.selectedGround = null;
-		this.markedBlock = null;
-
 		this.isPointerDown = false;
 		this.pointerDownVector = new THREE.Vector2();
 
@@ -54,7 +48,6 @@ class View extends Observable {
 
 		this.canvas.appendChild(this.renderer.domElement);
 
-		this.raycaster = new THREE.Raycaster();
 		this.fontTexture = new FontTexture(this.config.font, this.camera);
 		this.textureManager = new TextureManager();
 
@@ -123,117 +116,10 @@ class View extends Observable {
 		return true;
 	}
 
-	intersectObjects(eventPosX, eventPosY) {
-		let intersects = null;
-
-		this.raycaster.setFromCamera(this.getMouseVector2(eventPosX, eventPosY), this.camera);
-
-		intersects = this.raycaster.intersectObjects(this.intersectMeshs, true);
-
-		if (this.selectedObject !== null) {
-			this.selectedObject.material.opacity = 0.2;
-			this.selectedObject = null;
-		}
-
-		if (intersects.length > 0) {
-			this.selectedObject = intersects[0].object;
-			this.selectedObject.material.opacity = 1;
-		}
-
-		if (this.gameView !== null) {
-			if (this.markedBlock === null) {
-				intersects = this.raycaster.intersectObjects(this.gameView.intersectBlockMeshs, true);
-
-				if (this.selectedBlock !== null) {
-					this.selectedBlock.material.opacity = 1;
-					this.selectedBlock = null;
-				}
-
-				if (intersects.length > 0) {
-					this.selectedBlock = intersects[0].object;
-					this.selectedBlock.material.opacity = 0.5;
-				}
-			} else {
-				intersects = this.raycaster.intersectObjects(this.gameView.intersectGameMeshs, true);
-
-				if (this.selectedGround !== null) {
-					this.selectedGround.material.map = this.textureManager.get('nonPick');
-					this.selectedGround = null;
-				}
-
-				if (this.selectedBlock !== null && this.markedBlock !== this.selectedBlock) {
-					this.selectedBlock.material.opacity = 1;
-					this.selectedBlock = null;
-				}
-
-				if (intersects.length > 0) {
-					if (intersects[0].object.userData.type === 'ground') {
-						this.selectedGround = intersects[0].object;
-						this.selectedGround.material.map = this.textureManager.get('pick');
-					} else if (intersects[0].object.userData.type === 'block') {
-						this.selectedBlock = intersects[0].object;
-						this.selectedBlock.material.opacity = 0.5;
-					}
-				}
-			}
-		}
-	}
-
-	useIntersectedObject() {
-		if (this.selectedObject !== null) {
-			this.emit(this.selectedObject.userData.actionHandler);
-
-			this.selectedObject = null;
-		}
-
-		// the mouse pointer is over a block element
-		if (this.selectedGround === null && this.selectedBlock !== null) {
-			if (this.markedBlock !== null) {
-				this.markedBlock.material.opacity = 1;
-			}
-
-			if (this.markedBlock !== this.selectedBlock) {
-				this.markedBlock = this.selectedBlock;
-				this.selectedBlock = null;
-
-				this.emit(this.markedBlock.userData.actionHandler, {
-					curX: this.markedBlock.userData.x,
-					curY: this.markedBlock.userData.y
-				});
-			} else {
-				// unselect selected block
-				this.markedBlock = null;
-				this.selectedBlock = null;
-			}
-		}
-
-		// the mouse pointer is over a ground element
-		if (this.selectedGround !== null && this.markedBlock !== null) {
-			let wayFound = this.emit(this.selectedGround.userData.actionHandler, {
-				curX: this.markedBlock.userData.x,
-				curY: this.markedBlock.userData.y,
-				endX: this.selectedGround.userData.x,
-				endY: this.selectedGround.userData.y
-			});
-
-			if (wayFound) {
-				this.markedBlock.material.opacity = 1;
-				this.markedBlock = null;
-				this.selectedGround = null;
-			}
-		}
-	}
-
 	setPartialView(obj) {
 		this.partialView = obj;
 
 		this.scene = this.partialView.scene;
-
-		this.intersectMeshs = this.partialView.intersectMeshs;
-		this.selectedObject = null;
-		this.selectedBlock = null;
-		this.selectedGround = null;
-		this.markedBlock = null;
 
 		this.partialView.show();
 		this.render();
@@ -294,7 +180,9 @@ class View extends Observable {
 		}
 
 		if (this.isPointerDown === false) {
-			this.intersectObjects(eventPosX, eventPosY);
+			let pointerVector = this.getMouseVector2(eventPosX, eventPosY);
+
+			this.partialView.intersectObjects(pointerVector, this.camera);
 		} else {
 			if (this.partialView.container) {
 				this.endPointerVector = this.getMouseVector2(eventPosX, eventPosY);
@@ -317,7 +205,7 @@ class View extends Observable {
 		let currentPointerPos = this.getMouseVector2(eventPosX, eventPosY);
 
 		if (this.matchClick(currentPointerPos, this.pointerDownVector)) {
-			this.useIntersectedObject();
+			this.partialView.useIntersectedObject();
 		}
 
 		this.updateTextures();

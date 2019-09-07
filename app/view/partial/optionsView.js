@@ -2,18 +2,14 @@ import BaseView from './baseView.js';
 
 class OptionsView extends BaseView {
 	constructor(mainView, model) {
-		super();
+		super(mainView);
 
-		this.mainView = mainView;
 		this.model = model;
 
 		this.textMusic = null;
 		this.textMusicValue = null;
 		this.textMusicButton = null;
 		this.navToMenuButton = null;
-		this.intersectMeshs = [];
-
-		this.scene = new THREE.Scene();
 
 		this.createObjects();
 	}
@@ -40,6 +36,8 @@ class OptionsView extends BaseView {
 	}
 
 	show() {
+		this.selectedObject = null;
+		
 		this.updateTextures();
 	}
 

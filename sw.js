@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v.1.09';
+const CACHE_VERSION = 'v.1.10';
 const CACHE_NAME = 'tetrisball/' + CACHE_VERSION
 
 self.addEventListener('install', (event) => {

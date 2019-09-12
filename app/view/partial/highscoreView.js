@@ -27,6 +27,7 @@ class HighscoreView extends BaseView {
 		this.hiddenInput.style.opacity = '0';
 		this.hiddenInput.style.top = '0';
 		this.hiddenInput.style.transform = 'scale(0, 0)';
+		this.hiddenInput.addEventListener('blur', this.hiddenInputBlurHandler.bind(this));
 		this.hiddenInput.addEventListener('keydown', this.hiddenInputKeyDownHandler.bind(this));
 		this.hiddenInput.addEventListener('keyup', this.hiddenInputKeyUpHandler.bind(this));
 
@@ -51,7 +52,7 @@ class HighscoreView extends BaseView {
 
 	show() {
 		this.selectedObject = null;
-		
+
 		if (this.model.insertNewName) {
 			this.hiddenInput.focus();
 			this.hiddenInput.value = '';
@@ -96,14 +97,14 @@ class HighscoreView extends BaseView {
 		);
 	}
 
+	hiddenInputBlurHandler(event) {
+		this.mainView.emit('saveNameToHighscoreAction');
+	}
+
 	hiddenInputKeyDownHandler(event) {
 		switch (event.keyCode) {
 			case 9: { // TAB
 				event.preventDefault();
-			} break;
-
-			case 13: { // ENTER
-				this.mainView.emit('saveNameToHighscoreAction');
 			} break;
 		}
 

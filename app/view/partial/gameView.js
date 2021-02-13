@@ -1,3 +1,5 @@
+import * as THREE from '../../../lib/threejs_125/build/three.module.js';
+
 import helper from '../../../lib/rdo/helper.js';
 
 import BaseView from './baseView.js';
@@ -33,7 +35,7 @@ class GameView extends BaseView {
 	}
 
 	createObjects() {
-		let geometryBlock = new THREE.CubeGeometry(1, 1, 1);
+		let geometryBlock = new THREE.BoxGeometry(1, 1, 1);
 		let geometryGround = new THREE.PlaneGeometry(1, 1);
 
 		this.addPreviewBlocksButton = this.mainView.addTextBasePlane(this.scene);
@@ -188,7 +190,7 @@ class GameView extends BaseView {
 		} else if (this.container.rotation.x < -Math.PI / 2) {
 			this.container.rotation.x = -Math.PI / 2;
 		}
-		
+
 		if (this.container.scale.x < 2) {
 			this.container.scale.set(2, 2, 2);
 		} else if (this.container.scale.x > 4) {
@@ -202,12 +204,12 @@ class GameView extends BaseView {
 
 		this.readjustLimit();
 	}
-	
+
 	scaleGameBoard(val) {
 		this.container.scale.x += val;
 		this.container.scale.y += val;
 		this.container.scale.z += val;
-		
+
 		this.readjustLimit();
 	}
 

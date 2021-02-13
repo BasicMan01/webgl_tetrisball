@@ -1,3 +1,5 @@
+import * as THREE from '../../../lib/threejs_125/build/three.module.js';
+
 class BaseView {
 	constructor(mainView) {
 		this.mainView = mainView;

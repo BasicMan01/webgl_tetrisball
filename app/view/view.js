@@ -1,3 +1,5 @@
+import * as THREE from '../../lib/threejs_125/build/three.module.js';
+
 import Observable from '../classes/observable.js';
 import TextureManager from '../classes/textureManager.js';
 import FontTexture from '../../lib/rdo/fontTexture.js';

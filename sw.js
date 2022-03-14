@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v.1.11';
+const CACHE_VERSION = 'v.1.12';
 const CACHE_NAME = 'tetrisball/' + CACHE_VERSION
 
 self.addEventListener('install', (event) => {
@@ -27,7 +27,7 @@ self.addEventListener('install', (event) => {
 				'/webgl_tetrisball/lib/rdo/fontTexture.js',
 				'/webgl_tetrisball/lib/rdo/helper.js',
 				'/webgl_tetrisball/lib/rdo/sound.js',
-				'/webgl_tetrisball/lib/threejs_125/build/three.module.js',
+				'/webgl_tetrisball/lib/threejs_138/build/three.module.js',
 				'/webgl_tetrisball/resources/config/config.json',
 				'/webgl_tetrisball/resources/css/global.css',
 				'/webgl_tetrisball/resources/icon/icon_32.png',

@@ -1,4 +1,4 @@
-import * as THREE from '../../lib/threejs_138/build/three.module.js';
+import * as THREE from '../../lib/threejs_158/build/three.module.js';
 
 class TextureManager {
 	constructor() {

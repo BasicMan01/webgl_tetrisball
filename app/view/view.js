@@ -1,4 +1,4 @@
-import * as THREE from '../../lib/threejs_138/build/three.module.js';
+import * as THREE from '../../lib/threejs_158/build/three.module.js';
 
 import Observable from '../classes/observable.js';
 import TextureManager from '../classes/textureManager.js';
@@ -46,6 +46,7 @@ class View extends Observable {
 		this.renderer.setClearColor(0x000000, 1);
 		this.renderer.setPixelRatio(window.devicePixelRatio);
 		this.renderer.setSize(this.getGameAreaWidth(), this.getGameAreaHeight());
+		this.renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
 		this.renderer.sortObjects = true;
 
 		this.canvas.appendChild(this.renderer.domElement);

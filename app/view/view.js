@@ -46,7 +46,6 @@ class View extends Observable {
 		this.renderer.setClearColor(0x000000, 1);
 		this.renderer.setPixelRatio(window.devicePixelRatio);
 		this.renderer.setSize(this.getGameAreaWidth(), this.getGameAreaHeight());
-		this.renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
 		this.renderer.sortObjects = true;
 
 		this.canvas.appendChild(this.renderer.domElement);

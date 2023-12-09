@@ -16,6 +16,7 @@ class TextureManager {
 				path,
 
 				(texture) => {
+					texture.colorSpace = THREE.SRGBColorSpace;
 					texture.generateMipmaps = false;
 					texture.minFilter = THREE.LinearFilter;
 
